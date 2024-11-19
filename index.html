@@ -1,10 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Hello, World!!!</title>
+    <title>Пример формы</title>
 </head>
 <body>
-    <h1>Hello, World!!!</h1>
+    <!-- Форма ввода -->
+    <form id="myForm">
+        <label for="name">Введите имя:</label><br>
+        <input type="text" id="name" name="name"><br><br>
+        
+        <button type="submit">Отправить</button>
+    </form>
+
+    <!-- Результат запроса -->
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('myForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Отменяем стандартное поведение формы
+
+            const formData = new FormData(this);
+            const url = '/api/endpoint';
+
+            fetch(url, {
+                method: 'GET',
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                if ('error' in data) {
+                    alert(data.error); // Показываем ошибку
+                } else {
+                    document.getElementById('result').innerText = data.result; // Выводим результат
+                }
+            })
+            .catch(error => console.error('Ошибка:', error));
+        });
+    </script>
 </body>
 </html>
