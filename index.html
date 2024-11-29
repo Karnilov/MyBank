@@ -34,8 +34,10 @@
             if (!userName || !users[userName]) {
                 document.getElementById('userInfo').innerText = 'Пользователь не найден';
                 return;
+            } else {
+                document.getElementById('userInfo').innerText = users[userName];
+                return;
             }
-
             const userData = users[userName];
             document.getElementById('userInfo').innerText = `
                 Имя: ${userData.firstName}
