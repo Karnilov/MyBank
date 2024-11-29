@@ -3,53 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Пароль для доступа</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin-top: 50px;
-        }
-        input[type="text"] {
-            width: 200px;
-            padding: 12px 20px;
-            margin: 8px 0;
-            box-sizing: border-box;
-        }
-        button {
-            padding: 12px 20px;
-            cursor: pointer;
-        }
-        .hidden {
-            display: none;
-        }
-    </style>
+    <title>Фиктивный Банк</title>
 </head>
 <body>
-    <h1>Введите пароль для доступа</h1>
-    <input type="password" id="passwordInput" placeholder="Введите пароль">
-    <button onclick="checkPassword()">Проверить</button>
-
-    <div id="info" class="hidden">
-        <pre id="pythonDict"></pre>
-    </div>
+    <h1>Информация о пользователе</h1>
+    <p id="userInfo"></p>
 
     <script>
-        function checkPassword() {
-            const password = document.getElementById("passwordInput").value;
-            if (password === "correct_password") {
-                // Пароль верный, показываем дополнительную информацию
-                document.getElementById("info").classList.remove("hidden");
-                const pythonDict = {
-                    "key1": "value1",
-                    "key2": "value2",
-                    "key3": ["item1", "item2"]
-                };
-                document.getElementById("pythonDict").innerText = JSON.stringify(pythonDict, null, 4);
-            } else {
-                alert("Неверный пароль!");
+        const users = {
+            "Иван Иванов": {
+                firstName: "Иван",
+                lastName: "Иванов",
+                cardNumber: "**** **** **** 1234",
+                cvv: "***",
+                balance: 10000
+            },
+            "Анна Петрова": {
+                firstName: "Анна",
+                lastName: "Петрова",
+                cardNumber: "**** **** **** 5678",
+                cvv: "***",
+                balance: 15000
             }
-        }
+        };
+
+        window.onload = () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const userName = urlParams.get('userName');
+
+            if (!userName || !users[userName]) {
+                document.getElementById('userInfo').innerText = 'Пользователь не найден';
+                return;
+            }
+
+            const userData = users[userName];
+            document.getElementById('userInfo').innerText = `
+                Имя: ${userData.firstName}
+                Фамилия: ${userData.lastName}
+                Номер карты: ${userData.cardNumber}
+                Баланс: ${userData.balance} рублей
+            `;
+        };
     </script>
 </body>
 </html>
