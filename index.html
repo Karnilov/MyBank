@@ -1,42 +1,55 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Пример формы</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Пароль для доступа</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        input[type="text"] {
+            width: 200px;
+            padding: 12px 20px;
+            margin: 8px 0;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 12px 20px;
+            cursor: pointer;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
 </head>
 <body>
-    <!-- Форма ввода -->
-    <form id="myForm">
-        <label for="name">Введите имя:</label><br>
-        <input type="text" id="name" name="name"><br><br>
-        
-        <button type="submit">Отправить</button>
-    </form>
+    <h1>Введите пароль для доступа</h1>
+    <input type="password" id="passwordInput" placeholder="Введите пароль">
+    <button onclick="checkPassword()">Проверить</button>
 
-    <!-- Результат запроса -->
-    <div id="result"></div>
+    <div id="info" class="hidden">
+        <pre id="pythonDict"></pre>
+    </div>
 
     <script>
-        document.getElementById('myForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Отменяем стандартное поведение формы
-
-            const formData = new FormData(this);
-            const url = '/api/endpoint';
-
-            fetch(url, {
-                method: 'GET',
-                body: formData,
-            })
-            .then(response => response.json())
-            .then(data => {
-                if ('error' in data) {
-                    alert(data.error); // Показываем ошибку
-                } else {
-                    document.getElementById('result').innerText = data.result; // Выводим результат
-                }
-            })
-            .catch(error => console.error('Ошибка:', error));
-        });
+        function checkPassword() {
+            const password = document.getElementById("passwordInput").value;
+            if (password === "correct_password") {
+                // Пароль верный, показываем дополнительную информацию
+                document.getElementById("info").classList.remove("hidden");
+                const pythonDict = {
+                    "key1": "value1",
+                    "key2": "value2",
+                    "key3": ["item1", "item2"]
+                };
+                document.getElementById("pythonDict").innerText = JSON.stringify(pythonDict, null, 4);
+            } else {
+                alert("Неверный пароль!");
+            }
+        }
     </script>
 </body>
 </html>
